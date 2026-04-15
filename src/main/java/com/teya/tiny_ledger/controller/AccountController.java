@@ -32,6 +32,7 @@ public class AccountController {
     public ResponseEntity<Account> getBalance(
             @PathVariable String accountEmail
     ) throws AccountNotFoundException {
+        // in real world I would map it to some DTO with enough info to see the balance
         Account account = accountService.getBalance(accountEmail);
         return ResponseEntity.ok(account);
     }

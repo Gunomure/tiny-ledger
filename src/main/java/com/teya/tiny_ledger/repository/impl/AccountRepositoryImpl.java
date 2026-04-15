@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public class AccountRepositoryImpl implements AccountRepository {
-    private static final Map<String, Account> accounts = new HashMap<>();
+    private final Map<String, Account> accounts = new HashMap<>();
 
     @Override
     public Optional<Account> findAccount(String email) {

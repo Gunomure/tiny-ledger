@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public class TransactionsHistoryRepositoryImpl implements TransactionsHistoryRepository {
-    private static final List<Transaction> transactions = new ArrayList<>();
+    private final List<Transaction> transactions = new ArrayList<>();
 
     @Override
     public List<Transaction> findTransactionstHistory(String accountEmail) {
