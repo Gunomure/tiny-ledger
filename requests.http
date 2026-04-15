@@ -1,0 +1,33 @@
+### Create account
+POST http://localhost:8080/account/create
+Content-Type: application/json
+
+{"email": "user@example.com"}
+
+###
+
+### Get balance
+GET http://localhost:8080/account/user@example.com/balance
+
+###
+
+### Deposit
+POST http://localhost:8080/account/user@example.com/deposit
+Content-Type: application/json
+
+{"amount": 500.00}
+
+###
+
+### Withdraw
+POST http://localhost:8080/account/user@example.com/withdraw
+Content-Type: application/json
+
+{"amount": 100.00}
+
+###
+
+### Transaction history
+GET http://localhost:8080/account/user@example.com/history
+
+###
