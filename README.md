@@ -5,7 +5,7 @@ A simple in-memory ledger REST API built with Spring Boot. Supports account crea
 ## Assumptions
 
 - **No currency** — balances and amounts are plain decimal numbers with no currency attached.
-- **Email as user identifier** — email is used as the unique account ID for easier manual testing. In real life this should be a generated UUID.
+- **Integer ID as account identifier** — accounts are assigned an auto-incremented integer ID on creation. In real life this should be a generated UUID.
 - **No separate DTOs** — the same `Account` and `Transaction` classes are used for requests, responses, and internal logic. In real life each layer would have its own entity, request DTO, and response DTO with dedicated mappers between them.
 
 ---
@@ -29,8 +29,6 @@ The server starts on `http://localhost:8080` by default.
 
 For ready-to-run HTTP requests see [requests.http](requests.http).
 
-
-
 ### Create Account
 
 ```
@@ -40,14 +38,14 @@ POST /account/create
 **Request body:**
 ```json
 {
-  "email": "alice@example.com",
-  "balance": 0
+  "email": "alice@example.com"
 }
 ```
 
 **Response `201 Created`:**
 ```json
 {
+  "id": 1,
   "email": "alice@example.com",
   "balance": 0
 }
@@ -58,12 +56,13 @@ POST /account/create
 ### Get Balance
 
 ```
-GET /account/{accountEmail}/balance
+GET /account/{accountId}/balance
 ```
 
 **Response `200 OK`:**
 ```json
 {
+  "id": 1,
   "email": "alice@example.com",
   "balance": 150.00
 }
@@ -74,7 +73,7 @@ GET /account/{accountEmail}/balance
 ### Deposit
 
 ```
-POST /account/{accountEmail}/deposit
+POST /account/{accountId}/deposit
 ```
 
 **Request body:**
@@ -87,6 +86,7 @@ POST /account/{accountEmail}/deposit
 **Response `200 OK`:**
 ```json
 {
+  "id": 1,
   "email": "alice@example.com",
   "balance": 100.00
 }
@@ -97,7 +97,7 @@ POST /account/{accountEmail}/deposit
 ### Withdraw
 
 ```
-POST /account/{accountEmail}/withdraw
+POST /account/{accountId}/withdraw
 ```
 
 **Request body:**
@@ -110,6 +110,7 @@ POST /account/{accountEmail}/withdraw
 **Response `200 OK`:**
 ```json
 {
+  "id": 1,
   "email": "alice@example.com",
   "balance": 50.00
 }
@@ -120,24 +121,26 @@ POST /account/{accountEmail}/withdraw
 ### Get Transaction History
 
 ```
-GET /account/{accountEmail}/history
+GET /account/{accountId}/history
 ```
 
 **Response `200 OK`:**
 ```json
 [
   {
-    "accountEmail": "alice@example.com",
+    "accountId": 1,
     "amount": 100.00,
     "type": "DEPOSIT"
   },
   {
-    "accountEmail": "alice@example.com",
-    "amount": 50.00,
+    "accountId": 1,
+    "amount": -50.00,
     "type": "WITHDRAW"
   }
 ]
 ```
+
+> Note: withdraw amounts are stored as negative values so the history can be summed to derive the balance.
 
 ---
 

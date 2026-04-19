@@ -20,18 +20,25 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void findAccount_returnsEmpty_whenAccountDoesNotExist() {
-        Optional<Account> result = repository.findAccount("unknown@example.com");
+    void findAccountById_returnsEmpty_whenAccountDoesNotExist() {
+        Optional<Account> result = repository.findAccountById(999);
 
         assertTrue(result.isEmpty());
     }
 
     @Test
-    void saveAccount_storesAccount_andCanBeRetrieved() {
+    void findAccountByEmail_returnsEmpty_whenAccountDoesNotExist() {
+        Optional<Account> result = repository.findAccountByEmail("nobody@example.com");
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void createAccount_storesAccount_andCanBeRetrievedByEmail() {
         Account account = new Account("user@example.com", BigDecimal.TEN);
 
-        repository.saveAccount(account);
-        Optional<Account> result = repository.findAccount("user@example.com");
+        repository.createAccount(account);
+        Optional<Account> result = repository.findAccountByEmail("user@example.com");
 
         assertTrue(result.isPresent());
         assertEquals("user@example.com", result.get().getEmail());
@@ -39,13 +46,13 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void saveAccount_overwritesExistingAccount() {
-        repository.saveAccount(new Account("user@example.com", BigDecimal.TEN));
-        repository.saveAccount(new Account("user@example.com", BigDecimal.ONE));
+    void createAccount_storesAccount_andCanBeRetrievedById() {
+        Account account = new Account("user@example.com", BigDecimal.TEN);
 
-        Optional<Account> result = repository.findAccount("user@example.com");
+        Account saved = repository.createAccount(account);
+        Optional<Account> result = repository.findAccountById(saved.getId());
 
         assertTrue(result.isPresent());
-        assertEquals(BigDecimal.ONE, result.get().getBalance());
+        assertEquals("user@example.com", result.get().getEmail());
     }
 }

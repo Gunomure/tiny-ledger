@@ -1,12 +1,12 @@
 package com.teya.tiny_ledger.service.impl;
 
 import com.teya.tiny_ledger.exception.AccountAlreadyExistsException;
+import com.teya.tiny_ledger.exception.AccountNotFoundException;
 import com.teya.tiny_ledger.model.Account;
 import com.teya.tiny_ledger.repository.AccountRepository;
 import com.teya.tiny_ledger.service.AccountService;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -27,26 +27,26 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public Account createAccount(Account account) throws AccountAlreadyExistsException {
-        Optional<Account> accountOpt = accountRepository.findAccount(account.getEmail());
+        Optional<Account> accountOpt = accountRepository.findAccountByEmail(account.getEmail());
         if (accountOpt.isPresent()) {
             throw new AccountAlreadyExistsException(account.getEmail());
         }
         account.setBalance(BigDecimal.ZERO);
 
-        return accountRepository.saveAccount(account);
+        return accountRepository.createAccount(account);
     }
 
     /**
-     * Find account by email (in real world it might be UUID).
-     * @param accountEmail
+     * Find account by id (in real world it might be UUID).
+     *
+     * @param accountId
      * @return
-     * @throws AccountNotFoundException - if account doesn't exist
      */
     @Override
-    public Account getBalance(String accountEmail) throws AccountNotFoundException {
-        Optional<Account> accountOpt = accountRepository.findAccount(accountEmail);
+    public Account getBalance(Integer accountId) throws AccountNotFoundException {
+        Optional<Account> accountOpt = accountRepository.findAccountById(accountId);
         if (accountOpt.isEmpty()) {
-            throw new AccountNotFoundException(accountEmail);
+            throw new AccountNotFoundException(accountId);
         }
 
         return accountOpt.get();

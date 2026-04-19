@@ -12,6 +12,12 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
+    private int id;
     private String email;
     private BigDecimal balance;
+
+    public Account(String email, BigDecimal balance) {
+        this.email = email;
+        this.balance = balance;
+    }
 }

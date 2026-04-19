@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TransactionsHistoryRepository {
 
-    List<Transaction> findTransactionstHistory(String accountEmail);
+    List<Transaction> findTransactionstHistory(Integer accountId);
 
     void addTransactionHistory(Transaction transactionHistory);
 }

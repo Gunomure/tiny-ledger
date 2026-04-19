@@ -6,7 +6,11 @@ import java.util.Optional;
 
 public interface AccountRepository {
 
-    Optional<Account> findAccount(String email);
+    Account createAccount(Account account);
 
-    Account saveAccount(Account account);
+    Account updateAccount(Account accountToUpdate);
+
+    Optional<Account> findAccountById(Integer accountId);
+
+    Optional<Account> findAccountByEmail(String email);
 }

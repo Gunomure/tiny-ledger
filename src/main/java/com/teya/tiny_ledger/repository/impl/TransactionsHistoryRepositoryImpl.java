@@ -12,9 +12,9 @@ public class TransactionsHistoryRepositoryImpl implements TransactionsHistoryRep
     private final List<Transaction> transactions = new ArrayList<>();
 
     @Override
-    public List<Transaction> findTransactionstHistory(String accountEmail) {
+    public List<Transaction> findTransactionstHistory(Integer accountId) {
         return transactions.stream()
-                .filter(transaction -> transaction.getAccountEmail().equals(accountEmail))
+                .filter(transaction -> transaction.getAccountId().equals(accountId))
                 .toList();
     }
 

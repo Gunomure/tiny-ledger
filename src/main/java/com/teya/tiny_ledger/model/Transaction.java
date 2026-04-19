@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 public class Transaction {
-    private String accountEmail;
+    private Integer accountId;
     private BigDecimal amount;
     private TransactionType type;
 }

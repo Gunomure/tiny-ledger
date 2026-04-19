@@ -22,17 +22,17 @@ public class TransactionsHistoryRepositoryTest {
 
     @Test
     void findAccountHistory_returnsEmptyList_whenNoTransactionsExist() {
-        List<Transaction> result = repository.findTransactionstHistory("user@example.com");
+        List<Transaction> result = repository.findTransactionstHistory(1);
 
         assertTrue(result.isEmpty());
     }
 
     @Test
     void addTransactionHistory_storesTransaction_andCanBeRetrieved() {
-        Transaction transaction = new Transaction("user@example.com", BigDecimal.TEN, TransactionType.DEPOSIT);
+        Transaction transaction = new Transaction(1, BigDecimal.TEN, TransactionType.DEPOSIT);
 
         repository.addTransactionHistory(transaction);
-        List<Transaction> result = repository.findTransactionstHistory("user@example.com");
+        List<Transaction> result = repository.findTransactionstHistory(1);
 
         assertEquals(1, result.size());
         assertEquals(BigDecimal.TEN, result.get(0).getAmount());
@@ -40,22 +40,22 @@ public class TransactionsHistoryRepositoryTest {
     }
 
     @Test
-    void findAccountHistory_returnsOnlyTransactionsForGivenEmail() {
-        repository.addTransactionHistory(new Transaction("user@example.com", BigDecimal.TEN, TransactionType.DEPOSIT));
-        repository.addTransactionHistory(new Transaction("other@example.com", BigDecimal.ONE, TransactionType.DEPOSIT));
+    void findAccountHistory_returnsOnlyTransactionsForGivenAccountId() {
+        repository.addTransactionHistory(new Transaction(1, BigDecimal.TEN, TransactionType.DEPOSIT));
+        repository.addTransactionHistory(new Transaction(2, BigDecimal.ONE, TransactionType.DEPOSIT));
 
-        List<Transaction> result = repository.findTransactionstHistory("user@example.com");
+        List<Transaction> result = repository.findTransactionstHistory(1);
 
         assertEquals(1, result.size());
-        assertEquals("user@example.com", result.get(0).getAccountEmail());
+        assertEquals(1, result.get(0).getAccountId());
     }
 
     @Test
-    void findAccountHistory_returnsAllTransactionsForGivenEmail() {
-        repository.addTransactionHistory(new Transaction("user@example.com", BigDecimal.TEN, TransactionType.DEPOSIT));
-        repository.addTransactionHistory(new Transaction("user@example.com", BigDecimal.ONE, TransactionType.WITHDRAW));
+    void findAccountHistory_returnsAllTransactionsForGivenAccountId() {
+        repository.addTransactionHistory(new Transaction(1, BigDecimal.TEN, TransactionType.DEPOSIT));
+        repository.addTransactionHistory(new Transaction(1, BigDecimal.ONE, TransactionType.WITHDRAW));
 
-        List<Transaction> result = repository.findTransactionstHistory("user@example.com");
+        List<Transaction> result = repository.findTransactionstHistory(1);
 
         assertEquals(2, result.size());
     }

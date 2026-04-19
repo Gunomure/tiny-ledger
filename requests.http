@@ -6,13 +6,13 @@ Content-Type: application/json
 
 ###
 
-### Get balance
-GET http://localhost:8080/account/user@example.com/balance
+### Get balance (use the id returned from create)
+GET http://localhost:8080/account/1/balance
 
 ###
 
 ### Deposit
-POST http://localhost:8080/account/user@example.com/deposit
+POST http://localhost:8080/account/1/deposit
 Content-Type: application/json
 
 {"amount": 500.00}
@@ -20,7 +20,7 @@ Content-Type: application/json
 ###
 
 ### Withdraw
-POST http://localhost:8080/account/user@example.com/withdraw
+POST http://localhost:8080/account/1/withdraw
 Content-Type: application/json
 
 {"amount": 100.00}
@@ -28,6 +28,6 @@ Content-Type: application/json
 ###
 
 ### Transaction history
-GET http://localhost:8080/account/user@example.com/history
+GET http://localhost:8080/account/1/history
 
 ###
